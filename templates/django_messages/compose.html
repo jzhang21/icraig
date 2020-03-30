@@ -1,0 +1,68 @@
+{% extends "django_messages/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<!-- <h1>{% trans "Compose Message"%}</h1> -->
+<div class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            <tr id="recipient"> {{form.recipient | as_crispy_field}} </tr>
+            <tr> {{form.subject | as_crispy_field}} </tr>
+            <tr> {{form.body | as_crispy_field}} </tr>
+        </table>
+        <input id="send" type="submit" value="{% trans "Send" %} &raquo;"/>
+        <a id="cancel" href="../../../../m/messages/inbox" class="button">{% trans "Cancel"%}</a>
+    </form>
+</div>
+
+
+<style type="text/css">
+
+#send {
+ background-color: #1888ff;
+ padding: 10px;
+ -moz-border-radius: 5px;
+ -webkit-border-radius: 5px;
+ border-radius: 6px;
+ color: #fff;
+ font-size: 16px;
+ text-decoration: none;
+ border: 1px solid #1888ff;
+}
+
+#send:hover{
+    border: 1px solid #1888ff;
+    color: #1888ff;
+    background: #fff;
+    box-shadow: 0px 0px 1px #777;
+}
+
+#send {
+ margin-right: 5px;
+}
+
+#cancel {
+ margin-left: 5px;
+ background-color: #1888ff;
+ padding: 10px;
+ -moz-border-radius: 5px;
+ -webkit-border-radius: 5px;
+ border-radius: 6px;
+ color: #fff;
+ font-size: 16px;
+ text-decoration: none;
+ border: 1px solid #1888ff;
+}
+
+#cancel:hover{
+    border: 1px solid #1888ff;
+    color: #1888ff;
+    background: #fff;
+    box-shadow: 0px 0px 1px #777;
+}
+
+</style>
+
+{% endblock %}

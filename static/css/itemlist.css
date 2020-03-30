@@ -1,0 +1,285 @@
+/***************************************************************************************
+*  REFERENCES
+*  Title: How To - Toggle Switch
+*  Author: w3schools
+*  Date: Accessed 10/14/19
+*  Code version:
+*  URL: https://www.w3schools.com/howto/howto_css_switch.asp
+*  Software License: none found
+***************************************************************************************/
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    font-weight: 500;
+    font-size: 20px;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+#headers {
+  position: -webkit- sticky;
+  position: sticky;
+  top: 0;
+  background: rgb(250,250,250);
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #1888ff;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#filters {
+  position: -webkit- sticky;
+  position: sticky;
+  top: 0;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    font-size: 40px;
+    margin-top: 30px;
+    text-align: center;
+    background: #007bff;
+}
+
+#sidebar .sidebar-secondary {
+    font-size: 30px;
+    
+    text-align: center;
+    background: #007bff;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 20px;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #00438b;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #00438b;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #00438b;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+
+a.article,
+a.article:hover {
+    background: #00438b !important;
+    color: #fff !important;
+}
+.sidebaritem{
+    margin-bottom: 15px;
+    margin-left: 30px;
+    width: 220px;
+}
+
+#apply{
+ background-color: #9ebcdd;
+ color: #fff;
+ border: 1px solid #1888ff;
+}
+
+#apply:hover{
+    border: 1px solid #1888ff;
+    color: #1888ff;
+    background: #fff;
+    box-shadow: 0px 0px 1px #777;
+}
+
+#clear{
+ background-color: #9ebcdd;
+ color: #fff;
+ border: 1px solid #9ebcdd;
+}
+
+#clear:hover{
+    border: 1px solid #1888ff;
+    color: #1888ff;
+    background: #fff;
+    box-shadow: 0px 0px 1px #777;
+}
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MODIFIER STYLE
+----------------------------------------------------- */
+
+#modifier-wrapper {
+    float:right;
+}
+
+/* -----------------------------------------
+    SWITCH STYLE
+------------------------------------------- */
+
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  padding-top: 2px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+/* Dot within the slider
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+*/
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 50%;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 

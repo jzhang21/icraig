@@ -1,0 +1,59 @@
+
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% block staticfiles %}
+<style type="text/css">
+
+    a#sell {
+        color: #fff;
+    }
+    
+    a#home {
+        color:#73b0ff;
+    }
+    
+    </style>
+{% endblock %}
+{% block content %}
+{% block pagecontent %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: 10px">
+
+        	{% if message %}
+			<h4> {{ message }} </h4>
+			{% endif %}
+			
+            {% if user and not user.is_anonymous %}
+            <div style="margin-top: 10px; text-align: center">
+                <h1> Create Listing </h1>
+            </div>
+
+            <form action= "/create_listing/" method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+            
+                {{ form|crispy }}
+
+			    <br>
+
+                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Submit</button>
+                <script type="text/javascript">
+                    var d = new Date().getTime(); //Number of milliseconds since Jan 1, 1970. Pretty unlikely to be duplicated by the same account
+                    var ceiling = 2147483647;
+                    document.getElementById('id_acct').value = '{{user.username}}'; //Ties Listing to account that posted it
+                    document.getElementById('id_listing_id').value = d%ceiling; //Generates unique id. Wont submit if above the ceiling 
+                </script>
+            </form>
+            {% else %}
+            <h2 style="text-align: center; margin-top: 10px"> You must be logged in to create a listing </h2>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<br></br>
+
+
+
+{% endblock %}
+{% endblock %}

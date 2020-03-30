@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iCraig</title>
+
+{% extends 'navbar.html' %}
+{% block staticfiles %}
+<style>
+
+a#profile {
+    color: #fff;
+}
+
+a#home {
+    color:#73b0ff;
+}
+
+</style>
+{% endblock %}
+</head>
+<body>
+
+
+{% block wrapper %}
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar" class>
+            <div class="sidebar-header">
+              Your Profile
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a id="user"> Hello, {{user.username}}</a>
+                </li>
+
+            </ul>
+       
+        </nav>		
+	<style type="text/css">
+
+	a#profile {
+        color: #fff;
+        }
+ 
+        a#home {
+        color:#73b0ff;
+
+        </style>
+
+        {% endblock %}
+
+        {% block pagecontent %}
+        
+        {% block content %}
+        <div id="content" class = "container" style = "max-width: 3000px; margin: 20px">
+            <div class="media">
+                <div class="media-body">
+                    <legend class="border-bottom mb-4">Active Listings</legend>
+        	</div>
+            </div>
+            {% if listings %}
+            <table class="table table-hover">
+                <tr id="headers">
+                    <td>  <strong style="font-size: 20px;"> Image </strong><br/> </td>
+                    <td> <strong style="font-size: 20px;"> Item </strong><br/> </td>
+                    <td> <strong style="font-size: 20px;"> Description </strong><br/> </td>
+                    <td> <strong style="font-size: 20px;">Price</strong><br/> </td>
+                    <td> <strong style="font-size: 20px;"> Posted By </strong><br/> </td>
+                </tr>
+                    {% for item in listings %}
+                    <tr onclick="location.href='/{{item.acct}}/{{item.listing_id}}'">
+                        <td>
+                            <img class = "listImage"
+                            style="width: 200px; height: 200px;"
+                             src="{{item.images.url}}"/>
+                        </td>
+                        {% if item.sold == True %}
+                            <td style="font-size: 20px;"> {{item.title|truncatechars:30}} (SOLD)</td>
+                        {% else %}
+                            <td style="font-size: 20px;"> {{item.title|truncatechars:30}} </td>
+                        {% endif %}
+                        <td style="font-size: 20px;"> {{item.description|truncatechars:70}} </td>
+                        <td style="font-size: 20px;"> ${{item.price}} </td>
+                        <td style="font-size: 20px;"> <a id="goToProfile" href="/{{item.acct}}/"> {{item.acct}} </a> </td>
+                    </tr>
+                {% endfor %}
+            </table>
+                {% else %}
+                    <p> No listings available</p>
+                {% endif %}
+        </div>
+    </div>
+    
+
+
+{% endblock %}
+
+{% endblock %}
+
+
+</body>
+</html>

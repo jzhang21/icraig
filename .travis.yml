@@ -1,0 +1,10 @@
+language: python
+services: postgresql
+install: pip install -r requirements.txt
+deploy:
+  provider: heroku
+  api_key:
+    secure: PdlhYC6ZAShhOEz1CwZhQobegf9FDWhFfuQiEb0z9x5P1sNUqqnOqYqkwx+8xfCAVHtoWbaZupwxLwsiDxiLckiSU9v7pIoSDmFktyNw+eV0CJerQN6WjHOsrRYXyIyatxkwlQBIYalenGWhgkM9hbXP729kwyzdPlDqpDIJdFTEWaYD7qdTm3+0Ej2D5RWe2YsODv8vY2S7hUMhFSTzqyo0sRcAosYeWexxadymX5gsXgx5qJlnKI96uMsLtGBLqhO5GfgIsm9LwK7/70Q8NWusDhltpPT4SkNpEnkrt3SKcNN5/mf0mphusN6oBU4/PucB9TLxF5OYtZAqAMLpbCFgcNWoigaqQPoCJgQCqjpSHjhnDiEyKw0v7kFGrFISc/tHm800Y0fzG+4vDNM8VCrbeLGExS1FE32G6T9fZgp7gU6xlXaZgPdEVzrZ+ScDNGU0OhvPH5XnsH465ZEiUoryPcN6x/tFwJWMn/7YgzA/vpm3vu8wJ2hro/1G8MYunK4jF1hQ6OqSPop1wcL96xU/kvNfnn4h6+lv6WvmzY9YHPT5sJe3Ux+/lnjcjHxeNrxwfM0U7yJXBUO926D73nvvvgvgfl5lS2n3/OA9S8yMxslmL74r1Coo9pC2rCEu5yBY40+iJsm0P6pngv9NNemr7Xu5OSOVQz4sQS8w9DY=
+  app: icraig-team-m
+before_script: psql -c "CREATE DATABASE travisci;" -U postgres
+script: python manage.py collectstatic && python manage.py makemigrations && python manage.py migrate && python manage.py test craigslist

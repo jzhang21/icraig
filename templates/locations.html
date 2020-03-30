@@ -1,0 +1,131 @@
+{% extends 'navbar.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% block staticfiles %}
+    <script src="{% static 'js/locations.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/locations.css' %}" type="text/css" />
+    <style type="text/css">
+
+        a#location {
+            color: #fff;
+        }
+        
+        a#home {
+            color:#73b0ff;
+        }
+        
+        </style>
+    {% endblock %}
+</head>
+<body>
+    
+{%block pagecontent%}
+
+ <div style="margin: 40px">
+ <input id="pac-input"class="form-control" type="text" placeholder="Search">
+ <div id="map" style = "height: 700px"></div>
+
+ <script>
+ var map;
+ // This example adds a search box to a map, using the Google Place Autocomplete
+ // feature. People can enter geographical searches. The search box will return a
+ // pick list containing a mix of places and predicted search terms.
+ // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+ function initAutocomplete() {
+ map = new google.maps.Map(document.getElementById('map'), {
+ center: {lat: 38.033536, lng: -78.508074},
+ zoom: 16,
+ mapTypeId: 'roadmap'
+ });
+ // Create the search box and link it to the UI element.
+ var input = document.getElementById('pac-input');
+ var searchBox = new google.maps.places.SearchBox(input);
+ map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+ // Bias the SearchBox results towards current map's viewport.
+ map.addListener('bounds_changed', function() {
+ searchBox.setBounds(map.getBounds());
+ });
+ var markers = [];
+ // Listen for the event fired when the user selects a prediction and retrieve
+ // more details for that place.
+ searchBox.addListener('places_changed', function() {
+ var places = searchBox.getPlaces();
+ if (places.length == 0) {
+ return;
+ }
+ // Clear out the old markers.
+ markers.forEach(function(marker) {
+ marker.setMap(null);
+ });
+ markers = [];
+ // For each place, get the icon, name and location.
+ var bounds = new google.maps.LatLngBounds();
+ places.forEach(function(place) {
+ if (!place.geometry) {
+ console.log("Returned place contains no geometry");
+ return;
+ }
+ var icon = {
+ url: place.icon,
+ size: new google.maps.Size(71, 71),
+ origin: new google.maps.Point(0, 0),
+ anchor: new google.maps.Point(17, 34),
+ scaledSize: new google.maps.Size(25, 25)
+ };
+ // Create a marker for each place.
+ markers.push(new google.maps.Marker({
+ map: map,
+ icon: icon,
+ title: place.name,
+ position: place.geometry.location
+ }));
+ if (place.geometry.viewport) {
+ // Only geocodes have viewport.
+ bounds.union(place.geometry.viewport);
+ } else {
+ bounds.extend(place.geometry.location);
+ }
+ });
+ map.fitBounds(bounds);
+ });
+ }
+ function newLocation(newLat,newLng) {
+ map.setCenter({lat: newLat, lng: newLng});
+ map.setZoom(19)
+ }
+ google.maps.event.addDomListener(window, 'load', initAutocomplete);
+ </script>
+
+ <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsg0SAs-pEkT0nKQnf9pjUpui9BfJyQnk&libraries=places&callback=initAutocomplete"
+ async defer></script>
+ <!-- </body> -->
+
+
+ <!-- </head> -->
+
+ <br><br>
+ <h2> How to Use the Locations Tab: </h2>
+ <h4> Click on a button to see where the seller wants to meet you! You can also search for the location manually.</h4>
+ <h2> Locations: </h2>
+ <button id="1" class="btn btn-primary" style="padding:10px; cursor:pointer;">Alderman Library</button>
+ <button id="2" class="btn btn-primary" style="padding:10px;cursor:pointer;">Clemons Library</button>
+ <button id="3" class="btn btn-primary" style="padding:10px;cursor:pointer;">Clark Library</button>
+ <button id="4" class="btn btn-primary" style="padding:10px;cursor:pointer;">Curry School</button>
+ <button id="5" class="btn btn-primary" style="padding:10px;cursor:pointer;">UVA School of Engineering</button>
+ <br><br> 
+ </div>
+ 
+
+
+
+{% endblock %}
+</body>
+</html>

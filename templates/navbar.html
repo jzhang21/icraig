@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <link rel="stylesheet "href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+        <script src="{% static 'js/itemlist.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'css/itemlist.css' %}" type="text/css" />
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+        {% block staticfiles %}
+        {% endblock %}
+        <title>iCraig</title>
+    </head>
+    <body>
+        <nav style="margin-bottom: 0px" class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">
+                
+                {% if user.is_authenticated %}
+                <a class="nav-link" style="color: white; margin-left: 10px;" href="/profile/{{user.username}}/">{{ user.username }}</a>
+                <a class="nav-link" style="color: white; margin-right: 10px; width: 30%" href="{% url 'logout' %}">Logout</a>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a id="home" class="nav-link" href="/s/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="profile" class="nav-link" href="/profile/{{user.username}}/"> Profile </a>
+                        </li>
+						<li class="nav-item">
+						    <a id="messages" class="nav-link" href="/m/messages/"> Mail </a>
+						</li>
+                        <li class="nav-item">
+                            <a id="sell" class="nav-link" href="/create_listing"> Sell</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="location" class="nav-link" href="/locations"> Location</a>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <a class="nav-link" style="color: white; margin-right: 10px" class="lead" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+                {% endif %}
+
+                </a>
+                <div class="md-form mt-0" style = "width: 75%; margin-left: 20px">
+                    <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="searchBar">
+                    <script>
+                     // the following two lines of code were retrieved from https://stackoverflow.com/a/12049703
+                     var $_GET=[];
+                     window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(a,name,value){$_GET[name]=value;});
+                     if ($_GET['contains'] !== undefined) {
+                         $("#searchBar").val($_GET['contains']);
+                     }
+                    </script>
+                </div>
+                
+
+        </nav>
+        <script>
+         var bar = $("#searchBar");
+         bar.on('keyup', function (e) {
+             if (e.keyCode === 13) {
+                 window.location.href = window.location.origin + '/s/?contains=' + bar.val().trim();
+             }
+         });
+        </script>
+{% block wrapper %}
+{% endblock %}
+
+{% block pagecontent %}
+{% endblock %}
+
+</body>
+</html>

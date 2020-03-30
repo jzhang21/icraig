@@ -1,0 +1,106 @@
+{% extends "django_messages/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+<!-- <h1 style="margin-left:15px;">{% trans "Inbox" %}</h1> -->
+{% if message_list %}
+
+<div style="container">
+    <table class="messages">
+        <thead class="message_head">
+            <tr>
+	        <th style="padding:0 15px 15px 50px;"> {% trans "Sender" %} </th>
+	        <th style="padding:0 15px 15px 0px;">{% trans "Subject" %}</th>
+	        <th style="padding:0 15px 15px 15px;">{% trans "Received" %}</th>
+	        <th style="padding:0 15px 15px 0px;">{% trans "Action" %}</th>
+	    </tr>
+        </thead>
+        <tbody>
+            {% for message in message_list %}
+
+            <tr class="message_tr">
+                <td style="padding:0 15px 0 50px;"> <i> {{ message.sender }} </i> </td>
+                <td>
+                    {% if message.new %}<strong>{% endif %}
+                    {% if message.replied %}<em>{% endif %}
+                    <a id="subject" href="{{ message.get_absolute_url }}">{{ message.subject }}</a>
+                    {% if message.replied %}</em>{% endif %}
+                    {% if message.new %}</strong>{% endif %}</td>
+                <td style="padding:0 0px 0 15px;">{{ message.sent_at|date:_("DATETIME_FORMAT") }}</td>
+                <td><a id="delete" href="{% url 'messages_delete' message.id %}"> {% trans "delete" %}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="padding:0 15px 0 50px;">{% trans "No messages." %}</p>
+</div>
+{% endif %}
+
+<br></br>
+
+<button onclick="location.href='../compose';">New Message</button>
+<style type="text/css">
+
+ button {
+     background-color: #1888ff;
+     padding: .5em;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+     border-radius: 6px;
+     color: #fff;
+     font-size: 16px;
+     text-decoration: none;
+     border: 1px solid #1888ff;
+     margin-left: 50px;
+ }
+
+ .container {
+     width: 100
+ }
+ 
+ button:hover {
+     border: 1px solid #1888ff;
+     color: #1888ff;
+     background: #fff;
+     box-shadow: 0px 0px 1px #777;
+ }
+
+
+ a#inbox{
+     color: #fff;
+ }
+
+ #subject{
+     cursor:pointer;
+     color:blue;
+     text-decoration:underline;
+ }
+
+ #delete{
+     cursor:pointer;
+     color:blue;
+ }
+
+ .messages {
+     width: 70%;
+ }
+
+ .message_tr {
+     height: 50px;
+     background: #ffffff;
+ }
+ 
+ .message_tr:hover {
+     background: #eaeaea;
+ }
+
+ .message_head {
+     font-size: 24px;
+ }
+</style>
+
+{% endblock %}
+
+
+

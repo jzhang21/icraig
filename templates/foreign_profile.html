@@ -1,0 +1,90 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block staticfiles %}
+		<script src="{% static 'js/account_pull.js' %}"></script>
+		{% endblock %}
+	</head>
+	<body>
+		{% block wrapper %}
+		<div class="wrapper">
+		  	<!-- Sidebar  -->
+			<nav id="sidebar" class>
+				<div class="sidebar-header">
+				  Profile Info
+				</div>
+				<ul class="list-unstyled components">
+					<li>
+					 	<a id="user"></a>
+					</li>
+					<li>
+					 	<a onclick="location.href=messageUser()">Message seller</a>
+					</li>
+				</ul>
+		   
+		  </nav>
+
+		
+    
+	    	{% endblock %}
+			{% block pagecontent %}
+			{% block content %}
+			    
+			    <div id="content" class = "container" style = "max-width: 3000px; margin: 20px">
+			      <div class="media">
+					  <legend class="border-bottom mb-4">Profile Listings</legend>
+			      </div>
+					<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						  {% if listings %}
+							<table class="table table-hover">
+							    <tr id="headers">
+							        <td>  <strong style="font-size: 20px;"> Image </strong><br/> </td>
+			                        <td> <strong style="font-size: 20px;"> Item </strong><br/> </td>
+			                        <td> <strong style="font-size: 20px;"> Description </strong><br/> </td>
+			                        <td> <strong style="font-size: 20px;">Price</strong><br/> </td>
+			                        <td> <strong style="font-size: 20px;"> Posted By </strong><br/> </td>
+							    </tr>
+							        {% for item in listings %}
+							        <tr onclick="location.href='/{{item.acct}}/{{item.listing_id}}'">
+							            <td>
+							                <img class = "listImage"
+							                style="width: 200px; height: 200px;"
+							                 src="{{item.images.url}}"/>
+							            </td>
+							            {% if item.sold == True %}
+							                <td style="font-size: 20px;"> {{item.title|truncatechars:30}} (SOLD)</td>
+							            {% else %}
+							                <td style="font-size: 20px;"> {{item.title|truncatechars:30}} </td>
+							            {% endif %}
+							            <td style="font-size: 20px;"> {{item.description|truncatechars:70}} </td>
+							            <td style="font-size: 20px;"> ${{item.price}} </td>
+							            <td style="font-size: 20px;"> <a id="goToProfile" href="/{{item.acct}}/"> {{item.acct}} </a> </td>
+							        </tr>
+							    {% endfor %}
+							</table>
+							    {% else %}
+							        <p> No listings available</p>
+							    {% endif %} 
+			    	</form>
+			    </div>
+			    <script>
+			      // Gets the user from the url, then displays it on the page
+			      // Reasonable assumption about email, since only @virginia.edu is the only one allowed, and computing id is defaulted
+			      // Kinda ad hoc-ish, and if you can make a better solution, go for it
+			      var full = window.location.href;
+			      var split = full.indexOf('/', 9)+1;
+			      var account = full.substr(split, full.length).replace('/', '');
+			      document.getElementById('user').innerHTML = account;
+			      document.getElementById('email').innerHTML = account+"@virginia.edu";      
+			    </script>
+		</div>
+		{% endblock %}
+		{% endblock %}
+	</body>
+</html>

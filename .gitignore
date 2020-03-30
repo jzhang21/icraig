@@ -1,0 +1,12 @@
+__pycache__/
+*.log
+db.sqlite3
+.idea/
+.DS_Store
+media
+settings.py
+Lib
+Scripts
+pyvenv.cfg
+Include
+staticfiles

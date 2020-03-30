@@ -1,0 +1,193 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{% block title %}{% endblock %}</title>
+    {% block staticfiles %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/itemlist.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}" type="text/css" />
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    
+<style type="text/css">
+#sidebar{
+ background: #1888ff;
+}
+#apply{
+ background-color: #9ebcdd;
+ color: #fff;
+ border: 1px solid #1888ff;
+}
+#apply:hover{
+    border: 1px solid #1888ff;
+    color: #1888ff;
+    background: #fff;
+    box-shadow: 0px 0px 1px #777;
+}
+#clear{
+ background-color: #9ebcdd;
+ color: #fff;
+ border: 1px solid #9ebcdd;
+}
+#clear:hover{
+    border: 1px solid #1888ff;
+    color: #1888ff;
+    background: #fff;
+    box-shadow: 0px 0px 1px #777;
+}
+</style>
+
+{% endblock %}
+</head>
+
+<body>
+    {% block wrapper %} 
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar" class>
+            <ul class="list-unstyled components" id="filters">
+                <form method="get" >
+                    <div class="row" style="margin-bottom: 20px">
+                        <input name="contains" type="hidden" id="query" value="">
+                        <li>
+                            <div class = "sidebaritem">
+                                Min Price: <input class="form-control" type="number" placeholder="0" name="min-price" id="minPrice">
+                            </div>
+                        </li>
+                        <li>
+                            <div class = "sidebaritem">
+                                Max Price: <input class="form-control" type="number" placeholder="99999" name="max-price" id="maxPrice">
+                            </div>
+                        </li>
+                        <li>
+                            <div class = "sidebaritem">
+                                Category: <select name="category" class="bootstrap-select form-control" id="id_category">
+                                <option value="ANY">Any</option>
+                                <option value="FURNITURE">Furniture</option>
+                                <option value="TEXTBOOKS">Textbooks</option>
+                                <option value="HOUSING">Housing</option>
+                                <option value="SERVICES">Services</option>
+                                <option value="GIGS">Gigs</option>
+                                <option value="LOST_AND_FOUND">Lost &amp; Found</option>
+                                <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class = "sidebaritem">
+                                Condition: <select name="condition" class="bootstrap-select form-control" id="id_condition">
+                                <option value="ANY">Any</option>
+                                <option value="NEW">New</option>
+                                <option value="OPEN_BOX">Open Box</option>
+                                <option value="USED">Used</option>
+                                <option value="REFURBISHED">Refurbished</option>
+                                <option value="FOR_PARTS">For Parts or Not Working</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class = "sidebaritem">
+                            <div style="margin-top: 25px">
+                                <button id="apply" value="1" name="apply" type="submit" class=" btn btn-block mybtn btn-dark tx-tfm">Apply Filters</button>
+                            </div>
+                            <div style="margin-top: 25px">
+                                <button id="clear" value="1" name="apply" type="submit" class=" btn btn-block mybtn btn-danger tx-tfm">Clear Filters</button>
+                            </div>
+                        </li>
+                    </div>
+                </form>
+            </ul>
+        </nav>
+        {% endblock %} 
+        {% block pagecontent %}
+        <!-- Page Content  -->
+        <div id="content">
+            <script>
+             // the following two lines of code were retrieved from https://stackoverflow.com/a/12049703
+             var $_GET=[];
+             window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(a,name,value){$_GET[name]=value;});
+
+             console.log($_GET['min-price']);
+             
+             if ($_GET['contains'] !== undefined && $_GET['clear'] !== '1') {
+                 $("#query").val($_GET['contains']);
+             }
+             if ($_GET['min-price'] !== undefined && $_GET['clear'] !== '1') {
+                 $("#minPrice").val($_GET['min-price']);
+             }
+             if ($_GET['max-price'] !== undefined && $_GET['clear'] !== '1') {
+                 $("#maxPrice").val($_GET['max-price']);
+             }
+             if ($_GET['category'] !== undefined && $_GET['clear'] !== '1') {
+                 $("#id_category").val($_GET['category']);
+             }
+             if ($_GET['condition'] !== undefined && $_GET['clear'] !== '1') {
+                 $("#id_condition").val($_GET['condition']);
+             }
+            </script>
+            <div id="modifier-wrapper"> <!-- Things that modify the listing should results go in here -->
+
+                <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                        <label class="custom-control-label" for="defaultUnchecked">Condensed View</label>
+                </div>
+            </div>
+            
+            {% if itemlist %}
+            <table class="table table-hover">
+                <tr id="headers">
+                    <td>  <strong style="font-size: 20px;"> Image </strong><br/> </td>
+                                    <td> <strong style="font-size: 20px;"> Item </strong><br/> </td>
+                                    <td> <strong style="font-size: 20px;"> Description </strong><br/> </td>
+                                    <td> <strong style="font-size: 20px;">Price</strong><br/> </td>
+                                    <td> <strong style="font-size: 20px;"> Posted By </strong><br/> </td>
+                </tr>
+                    {% for item in itemlist %}
+                    <tr onclick="location.href='/{{item.acct}}/{{item.listing_id}}'">
+                        <td>
+                            <img class = "listImage"
+                            style="width: 200px; height: 200px;"
+                             src="{{item.images.url}}"/>
+                        </td>
+                        {% if item.sold == True %}
+                            <td style="font-size: 20px;"> {{item.title|truncatechars:30}} (SOLD)</td>
+                        {% else %}
+                            <td style="font-size: 20px;"> {{item.title|truncatechars:30}} </td>
+                        {% endif %}
+                        <td style="font-size: 20px;"> {{item.description|truncatechars:70}} </td>
+                        <td style="font-size: 20px;"> ${{item.price}} </td>
+                        <td style="font-size: 20px;"> <a id="goToProfile" href="/{{item.acct}}/"> {{item.acct}} </a> </td>
+                    </tr>
+                {% endfor %}
+            </table>
+                {% else %}
+                    <p> No listings available</p>
+                {% endif %} 
+        </div>
+        
+  
+    </div>
+    {% endblock %}
+    <script type="text/javascript">
+      $("#datepicker").datetimepicker({
+        format: "dd MM yyyy",
+        autoclose: true,
+        todayBtn: true,
+        minuteStep: 10
+      });
+    </script>  
+
+</body>
+</html>
+
